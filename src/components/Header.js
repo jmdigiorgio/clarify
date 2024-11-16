@@ -5,7 +5,7 @@ export default function Header() {
     <header className="bg-secondary text-primary p-4">
       <nav className="container mx-auto flex justify-between items-center">
         <div className="text-xl font-semibold">
-          Clarity
+          Clarify
         </div>
       </nav>
     </header>

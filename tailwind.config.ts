@@ -12,9 +12,45 @@ const config: Config = {
         accent: '#f59e0b',
         muted: '#737373',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            h1: {
+              fontWeight: 'bold',
+              marginBottom: '1.25em',
+              color: '#0c0a09',
+            },
+            p: {
+              marginBottom: '1.25em',
+              lineHeight: '1.75',
+            },
+            a: {
+              color: '#f59e0b',
+              textDecoration: 'underline',
+              '&:hover': {
+                color: '#d97706',
+              },
+            },
+            blockquote: {
+              fontStyle: 'italic',
+              borderLeftColor: '#d97706',
+              paddingLeft: '1em',
+              color: '#555',
+            },
+            ul: {
+              marginBottom: '1.25em',
+            },
+            li: {
+              marginBottom: '0.5em',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'), // Add the typography plugin here
+  ],
 };
 
 export default config;
