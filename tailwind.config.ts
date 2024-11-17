@@ -11,6 +11,7 @@ const config: Config = {
         secondary: '#0c0a09',
         accent: '#f59e0b',
         muted: '#737373',
+        highlighted: '#d6d3d1',
       },
       typography: {
         DEFAULT: {
