@@ -12,11 +12,11 @@ export default function Home() {
 
 ### Requirements management doesn’t have to be chaos.  
 
-For large systems, it often feels like:  
+For large systems, there are inevitably:  
 
 - **Hundreds of specs**  
 - **Countless dependencies**  
-- **An endless loop** of tracking, tracing, and validating  
+- **An endless loop of tracking, tracing, and validating**
 
 The result? Exhaustion. Frustration. Missed deadlines.  
 And let’s face it—old tools just aren’t cutting it anymore.  
