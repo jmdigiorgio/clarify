@@ -59,9 +59,9 @@ export default function Page() {
         <MarkdownRenderer markdown={markdownContentGuide} />
       </div>
       <div className="container mx-auto flex justify-around items-stretch flex-wrap p-8">
-        <Card title="Graph View" description={markdownContentGraph} onClick={() => router.push('/graph')} />
-        <Card title="Table View" description={markdownContentTable} onClick={() => alert('WIP')} />
-        <Card title="Doc View" description={markdownContentDoc} onClick={() => alert('WIP')} />
+        <Card title="" description={markdownContentGraph} onClick={() => router.push('/graph')} />
+        <Card title="" description={markdownContentTable} onClick={() => alert('WIP')} />
+        <Card title="" description={markdownContentDoc} onClick={() => alert('WIP')} />
       </div>
     </div>
   );
