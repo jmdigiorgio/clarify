@@ -1,5 +1,10 @@
 // Imports necessary components from React Router library.
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import '@fontsource/roboto/300.css'; // Light weight
+import '@fontsource/roboto/400.css'; // Regular weight
+import '@fontsource/roboto/500.css'; // Medium weight
+import '@fontsource/roboto/700.css'; // Bold weight
+
 
 // Imports the Home component from the specified path. This will be rendered as the home page.
 import Home from './pages/Home';
