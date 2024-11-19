@@ -7,9 +7,11 @@ export default function ProjectTree({ onSelect }) {
   return (
     <Box sx={{ width: 300, p: 2, height: '100%', backgroundColor: '#fafaf9' }}>
       <Typography variant="h6" sx={{ mb: 2, color: '#0c0a09' }}>
-        Project Hierarchy
+        Project Tree
       </Typography>
-      
+      <Typography variant="body2" sx={{ mb: 2, color: '#0c0a09' }}>
+        Projects can be nested within projects to delegate work to specialized teams and simplify complex systems.
+      </Typography>
       <SimpleTreeView
         aria-label="project hierarchy"
         defaultExpandIcon={<ChevronRight />}
