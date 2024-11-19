@@ -1,43 +1,53 @@
-// Import necessary components from MUI (Material UI) library.
-// - AppBar: Provides a top-level application bar for branding, navigation, or actions.
-// - Toolbar: Used to contain content like title, buttons, or icons within the AppBar.
-// - Button: A component for creating clickable buttons.
-// - ThemeProvider, createTheme: Used for creating and applying a custom theme.
-// - IconButton: A component for clickable icons, often used for menus.
-// - MenuIcon: The icon for a typical menu button (hamburger menu).
-import { AppBar, Toolbar, Button, IconButton } from '@mui/material';
+// Import necessary MUI components and React hooks
+import { 
+  AppBar, Toolbar, Button, IconButton, Typography, Box,
+  Drawer
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { FolderOpen } from '@mui/icons-material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import '@fontsource/roboto/300.css'; // Import Roboto font weight 300 (Light)
-import '@fontsource/roboto/400.css'; // Import Roboto font weight 400 (Regular)
-import '@fontsource/roboto/500.css'; // Import Roboto font weight 500 (Medium)
-import '@fontsource/roboto/700.css'; // Import Roboto font weight 700 (Bold)
+import { Link as RouterLink } from 'react-router-dom';
+import { useState } from 'react';
+import ProjectTree from './ProjectTree';  // Import the new ProjectTree component
 
-// Create a custom theme using createTheme function.
+// Import fonts for consistent typography
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+// Custom theme definition
 const customTheme = createTheme({
   palette: {
     primary: {
-      main: '#fafaf9', // White color for primary elements (e.g., button text)
+      main: '#fafaf9', // White for primary elements
     },
     secondary: {
-      main: '#0c0a09', // Black color for secondary elements (e.g., AppBar background)
+      main: '#0c0a09', // Black for AppBar background
     },
     accent: {
-      main: '#d97706', // Orange color for accent elements (e.g., hover effect)
+      main: '#d97706', // Orange for hover effects
     },
   },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif', // Set Roboto as the default font for a modern tech look
-    fontSize: 16, // Set the base font size for the entire application (default is 16px)
+    fontFamily: 'Roboto, Arial, sans-serif',
+    fontSize: 16,
   },
   components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none', // Ensure button text follows the case of its label (no uppercase transformation).
-          fontSize: '1.2rem', // Increase the font size of the button text
+          textTransform: 'none',
+          fontSize: '1.2rem',
           '&:hover': {
-            backgroundColor: '#d97706', // Change background color to accent color (orange) on hover.
+            backgroundColor: '#d97706',
           },
         },
       },
@@ -46,7 +56,7 @@ const customTheme = createTheme({
       styleOverrides: {
         root: {
           '&:hover': {
-            backgroundColor: '#d97706', // Change background color to accent color (orange) on hover for IconButton as well.
+            backgroundColor: '#d97706',
           },
         },
       },
@@ -54,31 +64,72 @@ const customTheme = createTheme({
   },
 });
 
-// Define a functional component called 'CustomAppBar'.
-// This component will create an AppBar with a Toolbar, a button, and an icon button.
-export default function CustomAppBar() {
+export default function CustomAppBar({ showProject = false }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [currentProject, setCurrentProject] = useState("Flight Control");
+
+  const handleProjectSelect = (projectName) => {
+    setCurrentProject(projectName);
+    setDrawerOpen(false);
+  };
+
   return (
-    // Wrap the AppBar with ThemeProvider to apply the custom theme.
     <ThemeProvider theme={customTheme}>
-      {/* The AppBar component acts as the application bar. It is a common element for navigation and branding.
-          'position="fixed"' means that the AppBar will remain fixed at the top of the page, even when the user scrolls.
-          'color="secondary"' sets the AppBar's color to the custom secondary color (black) from the theme. */}
       <AppBar position="fixed" color="secondary">
-        {/* Toolbar is used to add padding and align items within the AppBar. */}
-        <Toolbar>
-          {/* Button component is used to create a clickable button.
-              - 'sx' is used to customize the color of the button text to the primary color (white) from the theme.
-              - This button can be used for navigation or branding purposes. */}
-          <Button sx={{ color: 'primary.main' }} href="/">Clarity</Button>
-          {/* IconButton component is used to create a button with just an icon.
-              - 'edge="end"' is used to align the icon button to the end of its container.
-              - The MenuIcon is used to provide a typical hamburger menu icon.
-              - The hover effect is now added to the IconButton as well. */}
-          <IconButton edge="end" sx={{ color: 'primary.main' }}>
-            <MenuIcon />
-          </IconButton>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button 
+            component={RouterLink} 
+            to="/" 
+            sx={{ 
+              color: 'primary.main',
+              '&:hover': { backgroundColor: 'transparent' }
+            }}
+          >
+            Clarify
+          </Button>
+
+          {showProject && (
+            <Box sx={{ 
+              position: 'absolute', 
+              left: '50%', 
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1
+            }}>
+              <FolderOpen sx={{ color: '#d97706' }} />
+              <Typography 
+                variant="h6" 
+                component="div" 
+                sx={{ 
+                  color: 'primary.main',
+                  fontWeight: 400
+                }}
+              >
+                {currentProject}
+              </Typography>
+            </Box>
+          )}
+
+          {showProject && (
+            <IconButton 
+              edge="end" 
+              sx={{ color: 'primary.main' }}
+              onClick={() => setDrawerOpen(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
+
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <ProjectTree onSelect={handleProjectSelect} />
+      </Drawer>
     </ThemeProvider>
   );
 }
