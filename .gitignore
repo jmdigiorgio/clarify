@@ -18,6 +18,9 @@
 .env.test.local
 .env.production.local
 .env
+/claude
+copyToClaudeFolder.js
+/docs
 
 npm-debug.log*
 yarn-debug.log*
