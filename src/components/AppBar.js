@@ -1,14 +1,13 @@
 // Import necessary MUI components and React hooks
 import { 
   AppBar, Toolbar, Button, IconButton, Typography, Box,
-  Drawer
+  Drawer, Avatar
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import { FolderOpen } from '@mui/icons-material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
-import ProjectTree from './ProjectTree';  // Import the new ProjectTree component
+import ProjectTree from './ProjectTree';
 
 // Import fonts for consistent typography
 import '@fontsource/roboto/300.css';
@@ -61,6 +60,15 @@ const customTheme = createTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        appLabel: {
+          textTransform: 'none',
+          fontSize: '1.2rem',
+          fontFamily: 'Roboto, Arial, sans-serif',
+        },
+      },
+    },
   },
 });
 
@@ -82,7 +90,7 @@ export default function CustomAppBar({ showProject = false }) {
             to="/" 
             sx={{ 
               color: 'primary.main',
-              '&:hover': { backgroundColor: 'transparent' }
+              '&:hover': { backgroundColor: '#d97706' }
             }}
           >
             Clarify
@@ -97,14 +105,21 @@ export default function CustomAppBar({ showProject = false }) {
               alignItems: 'center',
               gap: 1
             }}>
-              <FolderOpen sx={{ color: '#d97706' }} />
-              <Typography 
-                variant="h6" 
-                component="div" 
+              <IconButton 
                 sx={{ 
                   color: 'primary.main',
-                  fontWeight: 400
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    color: '#d97706'
+                  }
                 }}
+                onClick={() => setDrawerOpen(true)}
+              >
+                <FolderOpen />
+              </IconButton>
+              <Typography 
+                variant="appLabel"
+                sx={{ color: 'primary.main' }}
               >
                 {currentProject}
               </Typography>
@@ -112,13 +127,17 @@ export default function CustomAppBar({ showProject = false }) {
           )}
 
           {showProject && (
-            <IconButton 
-              edge="end" 
-              sx={{ color: 'primary.main' }}
-              onClick={() => setDrawerOpen(true)}
+            <Avatar 
+              sx={{ 
+                cursor: 'pointer',
+                backgroundColor: 'primary.main',
+                color: 'secondary.main',
+                '&:hover': {
+                  backgroundColor: '#d97706'}
+              }}
             >
-              <MenuIcon />
-            </IconButton>
+              U
+            </Avatar>
           )}
         </Toolbar>
       </AppBar>
