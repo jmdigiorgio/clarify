@@ -62,6 +62,15 @@ Pages call components depending on context.
   - Demo page updated with Graph view
   - Node creation and retrieval working
   - Basic UI for displaying nodes using MUI Cards
+  - ESLint and Prettier configured for code quality and consistent formatting
+
+## Development Practices
+
+- Code Quality:
+  - ESLint configured with React-app and Prettier extensions
+  - Custom rules established for console usage and export patterns
+  - Automated formatting with Prettier
+  - Version control ignoring sensitive files (.env)
 
 ## User Workflow
 
@@ -73,6 +82,8 @@ Pages call components depending on context.
 
 ## Next Steps
 
+- Implement proper logging system to replace console.log statements
+- Clean up existing code to meet new linting standards
 - Implement node deletion
 - Add custom fields for node creation
 - Implement relationship creation and management
