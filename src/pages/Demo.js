@@ -1,20 +1,85 @@
 // Import necessary components and hooks
 import { useState } from 'react';
-import { Box, Tabs, Tab } from '@mui/material';
+import { 
+  Box, 
+  Tabs, 
+  Tab, 
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Stack
+} from '@mui/material';
 import { AccountTree, TableChart, Description } from '@mui/icons-material';
+import api from '../services/Api';
 
 function Demo() {
   // State to track which view is currently selected
-  // 0 = Graph, 1 = Table, 2 = Document
   const [currentView, setCurrentView] = useState(0);
+  // State to store nodes
+  const [nodes, setNodes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Handler for tab changes
   const handleViewChange = (event, newValue) => {
     setCurrentView(newValue);
   };
 
+  // Get all nodes
+  const fetchNodes = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await api.graph.getNodes();
+      setNodes(result);
+    } catch (error) {
+      setError(error.message);
+      console.error('Error:', error);
+    }
+    setLoading(false);
+  };
+
+  // Create a test node
+  const testCreateNode = async () => {
+    setError(null);
+    try {
+      await api.graph.createNode(
+        ['Requirement'], 
+        {
+          name: "Test Requirement",
+          description: "This is a test requirement"
+        }
+      );
+      // Refresh nodes list after creating new node
+      fetchNodes();
+    } catch (error) {
+      setError(error.message);
+      console.error('Error:', error);
+    }
+  };
+
+  // Render a single node card
+  const NodeCard = ({ node }) => (
+    <Card variant="outlined" sx={{ mb: 2 }}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          {node.properties.name || 'Unnamed Node'}
+        </Typography>
+        <Typography color="text.secondary" gutterBottom>
+          ID: {node.id}
+        </Typography>
+        <Typography color="text.secondary" gutterBottom>
+          Labels: {node.labels.join(', ')}
+        </Typography>
+        <Typography variant="body2">
+          {node.properties.description || 'No description'}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+
   return (
-    // Add top margin to account for AppBar height
     <Box sx={{ mt: 8 }}> 
       {/* View selector tabs */}
       <Tabs 
@@ -25,10 +90,10 @@ function Demo() {
           borderBottom: 1, 
           borderColor: 'divider',
           '& .Mui-selected': {
-            color: '#d97706 !important'  // Force accent color for selected tab
+            color: '#d97706 !important'
           },
           '& .MuiTabs-indicator': {
-            backgroundColor: '#d97706'    // Change the underline color
+            backgroundColor: '#d97706'
           }
         }}
       >
@@ -40,7 +105,49 @@ function Demo() {
       {/* View content area */}
       <Box sx={{ p: 3 }}>
         {currentView === 0 && (
-          <div>Graph View Coming Soon...</div>
+          <Box>
+            <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+              <Button 
+                variant="contained" 
+                onClick={testCreateNode}
+                color="primary"
+              >
+                Create Test Node
+              </Button>
+              <Button 
+                variant="outlined"
+                onClick={fetchNodes}
+                color="primary"
+              >
+                Get All Nodes
+              </Button>
+            </Stack>
+
+            {/* Error display */}
+            {error && (
+              <Typography color="error" sx={{ mb: 2 }}>
+                Error: {error}
+              </Typography>
+            )}
+
+            {/* Loading state */}
+            {loading && (
+              <Typography sx={{ mb: 2 }}>
+                Loading...
+              </Typography>
+            )}
+
+            {/* Nodes display */}
+            {nodes.length > 0 ? (
+              nodes.map(node => (
+                <NodeCard key={node.id} node={node} />
+              ))
+            ) : !loading && (
+              <Typography color="text.secondary">
+                No nodes found. Try creating one!
+              </Typography>
+            )}
+          </Box>
         )}
         {currentView === 1 && (
           <div>Table View Coming Soon...</div>
