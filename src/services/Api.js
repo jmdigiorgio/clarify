@@ -1,5 +1,5 @@
 // Base API configuration
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://clarify-x70d.onrender.com/api';
 
 // Helper function for making API requests
 const apiRequest = async (endpoint, options = {}) => {
