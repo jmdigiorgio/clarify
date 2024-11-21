@@ -19,7 +19,7 @@
 .env.production.local
 .env
 /claude
-copyToClaudeFolder.js
+ClaudeExport.js
 /docs
 
 npm-debug.log*

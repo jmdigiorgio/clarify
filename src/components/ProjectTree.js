@@ -2,15 +2,17 @@ import { Typography, Box } from '@mui/material';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { ExpandMore, ChevronRight } from '@mui/icons-material';
+import PropTypes from 'prop-types';
 
-export default function ProjectTree({ onSelect }) {
+function ProjectTree({ onSelect }) {
   return (
     <Box sx={{ width: 300, p: 2, height: '100%', backgroundColor: '#fafaf9' }}>
       <Typography variant="h6" sx={{ mb: 2, color: '#0c0a09' }}>
         Project Tree
       </Typography>
       <Typography variant="body2" sx={{ mb: 2, color: '#0c0a09' }}>
-        Projects can be nested within projects to delegate work to specialized teams and simplify complex systems.
+        Projects can be nested within projects to delegate work to specialized teams and simplify
+        complex systems.
       </Typography>
       <SimpleTreeView
         aria-label="project hierarchy"
@@ -39,3 +41,9 @@ export default function ProjectTree({ onSelect }) {
     </Box>
   );
 }
+
+ProjectTree.propTypes = {
+  onSelect: PropTypes.func.isRequired,
+};
+
+export default ProjectTree;

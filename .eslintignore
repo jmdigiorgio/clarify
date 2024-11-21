@@ -1,0 +1,15 @@
+# Build output
+build/
+dist/
+
+# Node modules
+node_modules/
+
+# Test files
+**/*.test.js
+**/*.spec.js
+src/setupTests.js
+
+# Other
+coverage/
+.vscode/
