@@ -7,6 +7,8 @@ const filesToCopy = [
     { src: 'src/App.js', dest: 'claude/App.js' },
     { src: 'src/components/AppBar.js', dest: 'claude/AppBar.js' },
     { src: 'src/components/ProjectTree.js', dest: 'claude/ProjectTree.js' },
+    { src: 'src/components/GraphViewport.js', dest: 'claude/GraphViewport.js' }, // New
+    { src: 'src/components/RequirementNode.js', dest: 'claude/RequirementNode.js' }, // New
     { src: 'src/pages/Demo.js', dest: 'claude/Demo.js' },
     { src: 'src/pages/Home.js', dest: 'claude/Home.js' },
     { src: 'src/services/Api.js', dest: 'claude/Api.js' },
