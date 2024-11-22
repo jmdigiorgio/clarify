@@ -4,27 +4,51 @@ import { useNodesState, useEdgesState, addEdge } from 'reactflow';
 import PropTypes from 'prop-types';
 import GraphViewport from './GraphViewport';
 import CreateNodeDrawer from './CreateNodeDrawer';
-import { Box, IconButton } from '@mui/material';
-// Changed Add to AddBox for the square-style add icon
-import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
+import { Box, IconButton, Paper, Typography, Collapse } from '@mui/material';
+import { Add, Remove, KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
 const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNodes }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
   useEffect(() => {
-    const transformedNodes = backendNodes.map((node) => ({
-      id: node.id,
-      type: 'requirement',
-      position: { x: 250, y: 250 },
-      data: {
-        label: node.properties.name || 'Unnamed',
-        description: node.properties.description,
-      },
-    }));
+    const centerX = window.innerWidth / 2 - 85; // Center of viewport minus half node width
+    const centerY = window.innerHeight / 2 - 60; // Center of viewport minus half node height
+    const radius = 300; // Distance from center node to surrounding nodes
+
+    const transformedNodes = backendNodes.map((node, index) => {
+      if (index === 0) {
+        // First node goes in the center
+        return {
+          id: node.id,
+          type: 'requirement',
+          position: { x: centerX, y: centerY },
+          data: {
+            label: node.properties.name || 'Unnamed',
+            description: node.properties.description,
+          },
+        };
+      } else {
+        // Other nodes spread in a circle around the center
+        const angle = ((index - 1) * (2 * Math.PI)) / (backendNodes.length - 1);
+        return {
+          id: node.id,
+          type: 'requirement',
+          position: {
+            x: centerX + radius * Math.cos(angle),
+            y: centerY + radius * Math.sin(angle),
+          },
+          data: {
+            label: node.properties.name || 'Unnamed',
+            description: node.properties.description,
+          },
+        };
+      }
+    });
     setNodes(transformedNodes);
   }, [backendNodes, setNodes]);
 
@@ -45,39 +69,91 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
         error={error}
       />
 
-      {/* Updated control buttons container */}
-      <Box
+      <Paper
+        elevation={0}
         sx={{
           position: 'absolute',
           top: 24,
           right: 24,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1, // Adds spacing between buttons
+          bgcolor: '#fafaf9',
+          border: '2px solid #0c0a09',
+          borderRadius: 1,
+          width: '120px',
           zIndex: 5,
         }}
       >
-        {/* Add node button - now using AddBox icon */}
-        <IconButton
+        <Box
           sx={{
-            bgcolor: 'white',
-            '&:hover': { bgcolor: '#d97706' },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            cursor: 'pointer',
+            py: 0.5,
           }}
-          onClick={() => setIsDrawerOpen(true)}
+          onClick={() => setIsExpanded(!isExpanded)}
         >
-          <AddBox />
-        </IconButton>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              color: '#0c0a09',
+              textAlign: 'center',
+              fontWeight: 500,
+            }}
+          >
+            Nodes
+          </Typography>
+          <IconButton
+            size="small"
+            sx={{
+              position: 'absolute',
+              right: 4,
+              p: 0,
+              color: '#0c0a09',
+            }}
+          >
+            {isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </Box>
 
-        {/* Delete button - currently non-functional */}
-        <IconButton
-          sx={{
-            bgcolor: 'white',
-            '&:hover': { bgcolor: '#d97706' },
-          }}
-        >
-          <IndeterminateCheckBox />
-        </IconButton>
-      </Box>
+        <Collapse in={isExpanded}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 1,
+              p: 1,
+            }}
+          >
+            <IconButton
+              sx={{
+                color: '#0c0a09',
+                '&:hover': {
+                  bgcolor: '#d97706',
+                  color: '#fafaf9',
+                },
+              }}
+              onClick={() => setIsDrawerOpen(true)}
+              size="small"
+            >
+              <Add />
+            </IconButton>
+
+            <IconButton
+              sx={{
+                color: '#0c0a09',
+                '&:hover': {
+                  bgcolor: '#d97706',
+                  color: '#fafaf9',
+                },
+              }}
+              size="small"
+            >
+              <Remove />
+            </IconButton>
+          </Box>
+        </Collapse>
+      </Paper>
 
       <CreateNodeDrawer
         open={isDrawerOpen}
