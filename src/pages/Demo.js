@@ -1,9 +1,8 @@
-// Import necessary components and hooks
 import { useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import { AccountTree, TableChart, Description } from '@mui/icons-material';
 import api from '../services/Api';
-import GraphViewport from '../components/GraphViewport';
+import GraphController from '../components/GraphController';
 
 function Demo() {
   // State to track which view is currently selected
@@ -69,8 +68,8 @@ function Demo() {
       {/* View content area */}
       <Box sx={{ p: 3 }}>
         {currentView === 0 && (
-          <GraphViewport
-            nodes={nodes}
+          <GraphController
+            backendNodes={nodes}
             loading={loading}
             error={error}
             onCreateNode={createNode}
