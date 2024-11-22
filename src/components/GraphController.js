@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import GraphViewport from './GraphViewport';
 import CreateNodeDrawer from './CreateNodeDrawer';
 import { Box, IconButton } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+// Changed Add to AddBox for the square-style add icon
+import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 
 const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNodes }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -44,19 +45,39 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
         error={error}
       />
 
-      <IconButton
+      {/* Updated control buttons container */}
+      <Box
         sx={{
           position: 'absolute',
           top: 24,
           right: 24,
-          bgcolor: 'white',
-          '&:hover': { bgcolor: '#d97706' },
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1, // Adds spacing between buttons
           zIndex: 5,
         }}
-        onClick={() => setIsDrawerOpen(true)}
       >
-        <AddIcon />
-      </IconButton>
+        {/* Add node button - now using AddBox icon */}
+        <IconButton
+          sx={{
+            bgcolor: 'white',
+            '&:hover': { bgcolor: '#d97706' },
+          }}
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          <AddBox />
+        </IconButton>
+
+        {/* Delete button - currently non-functional */}
+        <IconButton
+          sx={{
+            bgcolor: 'white',
+            '&:hover': { bgcolor: '#d97706' },
+          }}
+        >
+          <IndeterminateCheckBox />
+        </IconButton>
+      </Box>
 
       <CreateNodeDrawer
         open={isDrawerOpen}
