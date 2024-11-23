@@ -7,13 +7,6 @@ import 'reactflow/dist/style.css';
 const GraphViewport = ({ nodes, edges, onNodesChange, onEdgesChange, onConnect }) => {
   return (
     <div style={{ width: '100%', height: '100%' }}>
-      <style>
-        {`
-          .react-flow__handle {
-            opacity: 0;
-          }
-        `}
-      </style>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -21,6 +14,9 @@ const GraphViewport = ({ nodes, edges, onNodesChange, onEdgesChange, onConnect }
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+        // Add these two props to explicitly set handle positions
+        nodeOrigin={[0.5, 0.5]}
+        defaultEdgeOptions={{ type: 'default' }}
       >
         <Background />
         <Controls />

@@ -2,20 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useNodesState, useEdgesState, addEdge } from 'reactflow';
 import PropTypes from 'prop-types';
 import GraphViewport from './GraphViewport';
+import DirectionalNode from './DirectionalNode';
 import { Box, IconButton, Paper, Typography, Collapse } from '@mui/material';
 import { AddBox, ExpandLess, ExpandMore } from '@mui/icons-material';
 
-const getNodeDefaults = () => ({
-  style: {
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ddd',
-    backgroundColor: 'white',
-    minWidth: '150px',
-    textAlign: 'center',
-  },
-  // No sourcePosition or targetPosition - handles will be on both sides
-});
+// Define node types
+const nodeTypes = {
+  directional: DirectionalNode,
+};
 
 const GraphController = ({ backendNodes }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -43,12 +37,12 @@ const GraphController = ({ backendNodes }) => {
     if (backendNodes.length > 0) {
       const transformedNodes = backendNodes.map((node, index) => ({
         id: node.id,
+        type: 'directional', // Use our custom node type
         position: { x: 400 + index * 200, y: 250 },
         data: {
           label: node.properties.name || 'New Node',
           properties: node.properties,
         },
-        ...getNodeDefaults(),
       }));
       setNodes(transformedNodes);
     }
@@ -57,12 +51,12 @@ const GraphController = ({ backendNodes }) => {
   const addNewNode = () => {
     const newNode = {
       id: `node_${nodeIdCounter}`,
+      type: 'directional', // Use our custom node type
       position: { x: 400, y: 300 },
       data: {
         label: 'New Node',
         properties: {},
       },
-      ...getNodeDefaults(),
     };
 
     setNodes((nds) => [...nds, newNode]);
@@ -77,6 +71,7 @@ const GraphController = ({ backendNodes }) => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
       />
 
       <Paper
