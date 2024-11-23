@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import { AccountTree, TableChart, Description } from '@mui/icons-material';
 import api from '../services/Api';
@@ -17,8 +17,8 @@ function Demo() {
     setCurrentView(newValue);
   };
 
-  // Get all nodes
-  const fetchNodes = async () => {
+  // Get all nodes - wrapped in useCallback to maintain reference stability
+  const fetchNodes = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -28,23 +28,25 @@ function Demo() {
       setError(error.message);
     }
     setLoading(false);
-  };
+  }, []); // No dependencies needed as all used functions are stable
 
-  // Create a node
-  const createNode = async (labels, properties) => {
-    setError(null);
-    try {
-      await api.graph.createNode(labels, properties);
-      // Refresh nodes list after creating new node
-      fetchNodes();
-    } catch (error) {
-      throw error; // Propagate error to be handled by the form
-    }
-  };
+  // Create a node - wrapped in useCallback to maintain reference stability
+  const createNode = useCallback(
+    async (labels, properties) => {
+      setError(null);
+      try {
+        await api.graph.createNode(labels, properties);
+        // Refresh nodes list after creating new node
+        fetchNodes();
+      } catch (error) {
+        throw error; // Propagate error to be handled by the form
+      }
+    },
+    [fetchNodes]
+  ); // Include fetchNodes as dependency since we use it inside
 
   return (
     <Box sx={{ mt: 8 }}>
-      {/* View selector tabs */}
       <Tabs
         value={currentView}
         onChange={handleViewChange}
@@ -65,7 +67,6 @@ function Demo() {
         <Tab icon={<Description />} label="Document" />
       </Tabs>
 
-      {/* View content area */}
       <Box sx={{ p: 3 }}>
         {currentView === 0 && (
           <GraphController

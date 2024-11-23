@@ -2,14 +2,9 @@
 import React from 'react';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import PropTypes from 'prop-types';
-import RequirementNode from './RequirementNode';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import 'reactflow/dist/base.css';
 import 'reactflow/dist/style.css';
-
-const nodeTypes = {
-  requirement: RequirementNode,
-};
 
 const GraphViewport = ({
   nodes,
@@ -28,7 +23,6 @@ const GraphViewport = ({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        nodeTypes={nodeTypes}
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
       >
         <Background />

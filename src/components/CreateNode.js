@@ -62,13 +62,32 @@ const CreateNode = ({ onCreateNode, onCancel }) => {
           variant="contained"
           onClick={handleCreate}
           sx={{
-            bgcolor: '#d97706',
-            '&:hover': { bgcolor: '#92400e' },
+            bgcolor: 'primary.main',
+            color: 'secondary.main',
+            border: 1,
+            borderColor: 'secondary.main',
+            '&:hover': {
+              bgcolor: 'accent.main',
+              color: 'primary.main',
+            },
           }}
         >
           Create
         </Button>
-        <Button variant="outlined" onClick={onCancel}>
+        <Button
+          variant="contained"
+          onClick={onCancel}
+          sx={{
+            bgcolor: 'primary.main',
+            color: 'secondary.main',
+            border: 1,
+            borderColor: 'secondary.main',
+            '&:hover': {
+              bgcolor: 'accent.main',
+              color: 'primary.main',
+            },
+          }}
+        >
           Cancel
         </Button>
       </Stack>
