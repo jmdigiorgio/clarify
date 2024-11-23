@@ -19,19 +19,32 @@ const apiRequest = async (endpoint, options = {}) => {
 
 // Graph-related API calls
 const graphApi = {
-  // Get all nodes
+  // Node operations
   getNodes: () => apiRequest('/graph/nodes'),
-
-  // Create a new node
   createNode: (labels, properties) =>
     apiRequest('/graph/nodes', {
       method: 'POST',
       body: JSON.stringify({ labels, properties }),
     }),
-
-  // Delete a node
   deleteNode: (id) =>
     apiRequest(`/graph/nodes/${id}`, {
+      method: 'DELETE',
+    }),
+
+  // Node Type operations
+  getNodeTypes: () => apiRequest('/graph/node-types'),
+  createNodeType: (typeData) =>
+    apiRequest('/graph/node-types', {
+      method: 'POST',
+      body: JSON.stringify(typeData),
+    }),
+  updateNodeType: (id, typeData) =>
+    apiRequest(`/graph/node-types/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(typeData),
+    }),
+  deleteNodeType: (id) =>
+    apiRequest(`/graph/node-types/${id}`, {
       method: 'DELETE',
     }),
 };
@@ -39,5 +52,4 @@ const graphApi = {
 // Consolidated API service
 const apiService = { graph: graphApi };
 
-// Named export
 export { apiService as default };

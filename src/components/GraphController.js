@@ -2,47 +2,72 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useNodesState, useEdgesState, addEdge } from 'reactflow';
 import PropTypes from 'prop-types';
 import GraphViewport from './GraphViewport';
-import CreateNodeDrawer from './CreateNodeDrawer';
 import { Box, IconButton, Paper, Typography, Collapse } from '@mui/material';
 import { AddBox, ExpandLess, ExpandMore } from '@mui/icons-material';
 
-const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNodes }) => {
+const getNodeDefaults = () => ({
+  style: {
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ddd',
+    backgroundColor: 'white',
+    minWidth: '150px',
+    textAlign: 'center',
+  },
+  // No sourcePosition or targetPosition - handles will be on both sides
+});
+
+const GraphController = ({ backendNodes }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isControlExpanded, setIsControlExpanded] = useState(false);
+  const [nodeIdCounter, setNodeIdCounter] = useState(1);
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+  const onConnect = useCallback(
+    (params) => {
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            type: 'default',
+            markerEnd: { type: 'arrow', color: '#0c0a09' },
+          },
+          eds
+        )
+      );
+    },
+    [setEdges]
+  );
 
   useEffect(() => {
-    const transformedNodes = backendNodes.map((node, index) => ({
-      id: node.id,
-      position: {
-        x: 400 + index * 200,
-        y: 250,
-      },
-      data: {
-        label: node.properties.name || 'Unnamed',
-        description: node.properties.description,
-      },
-      style: {
-        padding: '10px',
-        borderRadius: '4px',
-        border: '1px solid #ddd',
-        backgroundColor: 'white',
-        minWidth: '150px',
-        textAlign: 'center',
-      },
-      sourcePosition: 'bottom',
-      targetPosition: 'top',
-      type: 'default',
-    }));
-    setNodes(transformedNodes);
+    if (backendNodes.length > 0) {
+      const transformedNodes = backendNodes.map((node, index) => ({
+        id: node.id,
+        position: { x: 400 + index * 200, y: 250 },
+        data: {
+          label: node.properties.name || 'New Node',
+          properties: node.properties,
+        },
+        ...getNodeDefaults(),
+      }));
+      setNodes(transformedNodes);
+    }
   }, [backendNodes, setNodes]);
 
-  useEffect(() => {
-    onFetchNodes();
-  }, [onFetchNodes]);
+  const addNewNode = () => {
+    const newNode = {
+      id: `node_${nodeIdCounter}`,
+      position: { x: 400, y: 300 },
+      data: {
+        label: 'New Node',
+        properties: {},
+      },
+      ...getNodeDefaults(),
+    };
+
+    setNodes((nds) => [...nds, newNode]);
+    setNodeIdCounter((prev) => prev + 1);
+  };
 
   return (
     <Box sx={{ position: 'relative', height: 'calc(100vh - 180px)' }}>
@@ -52,11 +77,8 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        loading={loading}
-        error={error}
       />
 
-      {/* Floating Control Box */}
       <Paper
         sx={{
           position: 'absolute',
@@ -64,7 +86,7 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
           right: 24,
           bgcolor: 'primary.main',
           border: 1,
-          borderColor: 'secondary.main', // Secondary color from our theme
+          borderColor: 'secondary.main',
           borderRadius: 1,
           overflow: 'hidden',
           minWidth: 100,
@@ -88,7 +110,7 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
               textAlign: 'center',
             }}
           >
-            Nodes
+            Controls
           </Typography>
           {isControlExpanded ? (
             <ExpandLess sx={{ color: 'black' }} />
@@ -100,10 +122,7 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
         <Collapse in={isControlExpanded}>
           <Box sx={{ p: 1, textAlign: 'center' }}>
             <IconButton
-              onClick={() => {
-                setIsDrawerOpen(true);
-                setIsControlExpanded(false);
-              }}
+              onClick={addNewNode}
               sx={{
                 color: 'black',
                 '&:hover': {
@@ -116,22 +135,12 @@ const GraphController = ({ backendNodes, loading, error, onCreateNode, onFetchNo
           </Box>
         </Collapse>
       </Paper>
-
-      <CreateNodeDrawer
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        onCreateNode={onCreateNode}
-      />
     </Box>
   );
 };
 
 GraphController.propTypes = {
   backendNodes: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-  onCreateNode: PropTypes.func.isRequired,
-  onFetchNodes: PropTypes.func.isRequired,
 };
 
 export default GraphController;
