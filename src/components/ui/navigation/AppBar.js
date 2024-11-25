@@ -1,103 +1,49 @@
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  IconButton,
-  Typography,
-  Box,
-  Drawer,
-  Avatar,
-} from '@mui/material';
-import { FolderOpen } from '@mui/icons-material';
-import { Link as RouterLink } from 'react-router-dom';
+import { AppBar, Toolbar } from '@mui/material';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import ProjectTree from '../../ProjectTree';
+import ProjectTree from '../../../components/ProjectTree'; // TODO: Rename to ComponentTree
+import AvatarButton from '../../../components/ui/buttons/AvatarButton';
+import ComponentButton from '../../../components/ui/buttons/ComponentButton';
+import ClarifyButton from '../../../components/ui/buttons/ClarifyButton';
+import DrawerInterface from '../../../components/ui/menus/DrawerInterface';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
-function CustomAppBar({ showProject = false }) {
+function CustomAppBar({ showComponents = false }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [currentProject, setCurrentProject] = useState('Flight Control');
+  const [currentComponent, setCurrentComponent] = useState('Flight Control');
 
-  const handleProjectSelect = (projectName) => {
-    setCurrentProject(projectName);
+  const handleComponentSelect = (componentName) => {
+    setCurrentComponent(componentName);
     setDrawerOpen(false);
+  };
+
+  const handleProfileClick = () => {
+    // We'll implement this when we add user settings
+    // For now it's just a stub that does nothing
   };
 
   return (
     <>
       <AppBar position="fixed" color="secondary">
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            component={RouterLink}
-            to="/"
-            sx={{
-              color: 'primary.main',
-              '&:hover': { backgroundColor: '#d97706' },
-            }}
-          >
-            Clarify
-          </Button>
+          <ClarifyButton />
 
-          {showProject && (
-            <Box
-              sx={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              <IconButton
-                sx={{
-                  color: 'primary.main',
-                  '&:hover': {
-                    backgroundColor: 'transparent',
-                    color: '#d97706',
-                  },
-                }}
-                onClick={() => setDrawerOpen(true)}
-              >
-                <FolderOpen />
-              </IconButton>
-              <Typography variant="appLabel" sx={{ color: 'primary.main' }}>
-                {currentProject}
-              </Typography>
-            </Box>
+          {showComponents && (
+            <ComponentButton componentName={currentComponent} onClick={() => setDrawerOpen(true)} />
           )}
 
-          {showProject && (
-            <Avatar
-              sx={{
-                cursor: 'pointer',
-                backgroundColor: 'primary.main',
-                color: 'secondary.main',
-                '&:hover': {
-                  backgroundColor: '#d97706',
-                },
-              }}
-            >
-              U
-            </Avatar>
-          )}
+          {showComponents && <AvatarButton label="User Settings" onClick={handleProfileClick} />}
         </Toolbar>
       </AppBar>
 
-      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <ProjectTree onSelect={handleProjectSelect} />
-      </Drawer>
+      <DrawerInterface open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <ProjectTree onSelect={handleComponentSelect} />
+      </DrawerInterface>
     </>
   );
 }
 
 CustomAppBar.propTypes = {
-  showProject: PropTypes.bool,
+  showComponents: PropTypes.bool,
 };
 
 export default CustomAppBar;
