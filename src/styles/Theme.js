@@ -1,4 +1,8 @@
 import { createTheme } from '@mui/material/styles';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 // Define color constants to ensure consistency
 const COLORS = {
@@ -19,6 +23,17 @@ const theme = createTheme({
     accent: {
       main: COLORS.ORANGE,
     },
+  },
+  // Add typography configuration to explicitly set Roboto as our font
+  typography: {
+    fontFamily: [
+      'Roboto',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
   },
   components: {
     MuiButton: {
