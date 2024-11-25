@@ -12,7 +12,7 @@ import { FolderOpen } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import ProjectTree from './ProjectTree';
+import ProjectTree from '../../ProjectTree';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

@@ -21,6 +21,8 @@
 /claude
 ClaudeExport.js
 /docs
+/ai
+/out
 
 npm-debug.log*
 yarn-debug.log*

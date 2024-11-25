@@ -9,7 +9,7 @@ import '@fontsource/roboto/700.css';
 // Import page and component files
 import Home from './pages/Home';
 import Demo from './pages/Demo';
-import AppBar from './components/AppBar';
+import AppBar from './components/ui/navigation/AppBar';
 
 // Define theme at app level
 const customTheme = createTheme({
