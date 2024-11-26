@@ -1,17 +1,13 @@
 import { Typography, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
-/**
- * HeroSection displays a centered page heading with subtext
- * Strictly follows Theme.js styling
- */
 const HeroSection = ({ heading, subheading }) => (
   <Box
     sx={{
       textAlign: 'center',
       mb: 12,
       mt: 8,
-      bgcolor: 'primary.main',
+      bgcolor: 'background.default', // Using our new pure white color
     }}
   >
     <Typography

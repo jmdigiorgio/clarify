@@ -7,6 +7,7 @@ import '@fontsource/roboto/700.css';
 // Define color constants to ensure consistency
 const COLORS = {
   WHITE: '#fafaf9',
+  PURE_WHITE: '#ffffff', // Adding pure white
   BLACK: '#0c0a09',
   ORANGE: '#d97706',
 };
@@ -23,8 +24,12 @@ const theme = createTheme({
     accent: {
       main: COLORS.ORANGE,
     },
+    background: {
+      default: COLORS.PURE_WHITE, // This will control the page background
+      paper: COLORS.WHITE, // This keeps our components with the off-white
+    },
   },
-  // Add typography configuration to explicitly set Roboto as our font
+  // Rest of the theme configuration remains the same
   typography: {
     fontFamily: [
       'Roboto',

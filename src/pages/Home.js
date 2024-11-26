@@ -9,17 +9,19 @@ const features = [
   {
     icon: <AccountTree fontSize="large" sx={{ color: 'secondary.main' }} />,
     heading: 'Graph View',
-    description: 'Visualize requirement relationships and dependencies in an interactive graph',
+    description:
+      'Discover hidden connections and dependencies between document elements in an interactive model',
   },
   {
     icon: <TableChart fontSize="large" sx={{ color: 'secondary.main' }} />,
     heading: 'Table View',
-    description: 'Manage requirements in a familiar spreadsheet-like interface',
+    description: 'Analyze and manipulate document data with powerful table-based tools',
   },
   {
     icon: <Description fontSize="large" sx={{ color: 'secondary.main' }} />,
     heading: 'Document View',
-    description: 'Work with requirements in traditional document format',
+    description:
+      'Generate traditional document formats while maintaining the benefits of model-based data',
   },
 ];
 
@@ -32,11 +34,11 @@ export default function Home() {
       <Container maxWidth="lg">
         <Box sx={{ mb: 6 }}>
           <HeroSection
-            heading="Modern Requirements Management"
-            subheading="Clarify helps engineering teams track, organize and visualize complex requirements"
+            heading="Model-Based Document Engineering"
+            subheading="Clarify transforms traditional engineering documents into intelligent, connected models - making them easier to visualize, manage, and understand"
           />
           <Box sx={{ textAlign: 'center' }}>
-            <MainButton onClick={() => navigate('/demo')}>Try Demo</MainButton>
+            <MainButton onClick={() => navigate('/graph')}>Try Demo</MainButton>
           </Box>
         </Box>
 

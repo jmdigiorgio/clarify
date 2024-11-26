@@ -1,27 +1,24 @@
-// Imports necessary components from React Router library
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
+import { AppBar, Toolbar } from '@mui/material';
 
-// Import page and component files
 import Home from './pages/Home';
-import Demo from './pages/Demo';
-import AppBar from './components/ui/navigation/AppBar';
-import theme from './styles/Theme'; // This will now include font imports
-
-// AppBarWrapper needed because useLocation hook must be used inside Router
-function AppBarWrapper() {
-  const location = useLocation();
-  return <AppBar showProject={location.pathname.startsWith('/demo')} />;
-}
+import Graph from './pages/Graph';
+import ClarifyButton from './components/ui/buttons/ClarifyButton';
+import theme from './styles/Theme';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <AppBarWrapper />
+        <AppBar position="fixed" color="secondary">
+          <Toolbar>
+            <ClarifyButton />
+          </Toolbar>
+        </AppBar>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/demo" element={<Demo />} />
+          <Route path="/graph" element={<Graph />} />
         </Routes>
       </Router>
     </ThemeProvider>
