@@ -29,9 +29,9 @@ const graphStyles = {
     handle: {
       width: '12px', // Width of the handle, a small circular element in the node.
       height: '12px', // Height of the handle.
-      background: COLORS.BLACK, // Sets the handle's color to black.
-      borderRadius: '50%', // Makes the handle circular.
-      border: `2px solid ${COLORS.PURE_WHITE}`, // Adds a white border around the handle.
+      background: COLORS.WHITE, // Sets the handle's color to black.
+      borderRadius: '15%', // Makes the handle circular.
+      border: `2px solid ${COLORS.BLACK}`, // Adds a white border around the handle.
     },
     label: {
       textAlign: 'center', // Centers the label text inside the node.
