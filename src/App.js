@@ -1,25 +1,25 @@
 // Import necessary components and functions from libraries and files
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // `react-router-dom` provides tools for navigation and routing in a React app.
 // `BrowserRouter` is the main wrapper for routing. `Route` defines individual paths, and `Routes` groups them.
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { ThemeProvider } from '@mui/material/styles';
 // `ThemeProvider` is a component from Material-UI that lets us apply a consistent theme to the app.
+import { ThemeProvider } from '@mui/material/styles';
 
-import { AppBar, Toolbar } from '@mui/material';
 // `AppBar` and `Toolbar` are Material-UI components used to create a top navigation bar.
+import { AppBar, Toolbar } from '@mui/material';
 
-import Home from './pages/Home';
 // Importing the `Home` component, which will be the main page displayed at the root URL ("/").
+import Home from './pages/Home';
 
-import Graph from './pages/Graph';
 // Importing the `Graph` component, which will be displayed at the "/graph" URL.
+import Graph from './pages/Graph';
 
-import ClarifyButton from './components/ui/buttons/ClarifyButton';
 // Importing a custom button component that will be added to the AppBar (likely for navigation or actions).
+import ClarifyButton from './components/ui/buttons/ClarifyButton';
 
-import theme from './styles/Theme';
 // Importing a custom Material-UI theme. This defines colors, typography, and other styles for the app.
+import theme from './styles/Theme';
 
 // Define the main application component
 function App() {
